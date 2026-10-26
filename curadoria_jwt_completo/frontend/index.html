@@ -6,17 +6,33 @@
   <title>Registro de usuário</title>
 </head>
 <body>
-  <div id="div_cadastro">
+  <dy>
+    <div id="listagem">
+        <h2>Itens de Curadoria</h2>
+    </div>
+    <script>
+    async function api_listagem_itens() {
+        const accessToken = localStorage.getItem('accessToken');
+        const dados_usuario = document.getElementById('listagem');
+        const requisicao = await fetch(
+            'http://localhost:3001/itens/',
+            {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            }
+        );
 
-    <form id ="form_cadastro">
-      <input type="text" name="name" id="name">
-      <input type="email" name="email" id="email">
-      <input type="password" name="password" id="password">
-    </form>
-    <button value= "cadastrar" onclick="api_cadastro_usuario"> cadastrar</button>
+        const resposta = await requisicao.json();
 
-  </div>
-
+        if (!requisicao.ok) {
+            alert(resposta.message);
+            throw new Error(`Erro ao enviar requisição: ${requisicao.status}`);
+        }
+    }
+</script>
 
 
 
